@@ -5,21 +5,25 @@
 <title>Verse of the Day</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  /* Match Notion dark mode background */
+  /* Full height for centering */
   html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #191919;
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     color: rgba(255, 255, 255, 0.81);
-    line-height: 38px;
     font-size: 32px;
     font-weight: 700;
+    line-height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   #dailyVersesWrapper {
-    margin: 0;
-    padding: 0;
+    max-width: 90%;
   }
 
   /* Hide headings, links, etc. */
@@ -35,4 +39,3 @@
   <script async defer src="https://dailyverses.net/get/verse.js?language=niv"></script>
 </body>
 </html>
-
