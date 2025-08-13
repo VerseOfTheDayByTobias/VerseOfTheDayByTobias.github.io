@@ -11,21 +11,22 @@
     background-color: #191919;
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     color: rgba(255, 255, 255, 0.81);
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 38px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 50px; /* ensures small content doesn’t collapse */
+    min-height: 50px;
   }
 
   #dailyVersesWrapper {
     max-width: 90%;
+    /* Responsive font scaling */
+    font-size: calc(2vw + 2vh); /* adjusts with viewport size */
+    line-height: 1.2em;
+    font-weight: 700;
   }
 
-  /* Hide headings, links, etc. */
+  /* Hide unwanted elements */
   #dailyVersesWrapper h3,
   #dailyVersesWrapper a,
   #dailyVersesWrapper small {
@@ -48,7 +49,7 @@
     const observer = new MutationObserver(resizeEmbed);
     observer.observe(document.getElementById('dailyVersesWrapper'), { childList: true, subtree: true });
 
-    // Optional: also resize on window resize
+    // Resize on window changes
     window.addEventListener('resize', resizeEmbed);
   </script>
 </body>
