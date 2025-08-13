@@ -19,11 +19,12 @@
   }
 
   #dailyVersesWrapper {
-    max-width: 90%;
-    max-height: 90%;
+    width: 90%;
+    height: 90%;
     font-weight: 700;
     line-height: 1.2em;
-    font-size: clamp(12px, 4vw, 20px); /* scales slightly based on embed width */
+    /* Scale with the smaller of viewport width or height */
+    font-size: clamp(12px, 4vmin, 24px);
     word-wrap: break-word;
   }
 
