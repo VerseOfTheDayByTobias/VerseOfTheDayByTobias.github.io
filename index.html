@@ -11,19 +11,21 @@
     background-color: #191919;
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     color: rgba(255, 255, 255, 0.81);
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 50px;
+    overflow: hidden;
   }
 
   #dailyVersesWrapper {
     max-width: 90%;
-    /* Responsive font scaling */
-    font-size: calc(2vw + 2vh); /* adjusts with viewport size */
-    line-height: 1.2em;
+    max-height: 90%;
     font-weight: 700;
+    line-height: 1.2em;
+    font-size: 32px; /* starting font size */
+    word-wrap: break-word;
   }
 
   /* Hide unwanted elements */
@@ -39,17 +41,33 @@
   <script async defer src="https://dailyverses.net/get/verse.js?language=niv"></script>
 
   <script>
-    // Auto resize Notion embed
     function resizeEmbed() {
-      const height = document.body.scrollHeight;
+      const wrapper = document.getElementById('dailyVersesWrapper');
+      let fontSize = 32; // starting font size
+      const maxHeight = window.innerHeight * 0.9;
+      const maxWidth = window.innerWidth * 0.9;
+
+      // Shrink text until it fits
+      function fitText() {
+        wrapper.style.fontSize = fontSize + 'px';
+        while ((wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) && fontSize > 10) {
+          fontSize -= 1;
+          wrapper.style.fontSize = fontSize + 'px';
+        }
+      }
+
+      fitText();
+
+      // Send height to Notion to adjust iframe
+      const height = wrapper.scrollHeight;
       window.parent.postMessage({ type: 'notion-height', height: height }, '*');
     }
 
-    // Resize once the verse loads
+    // Resize once verse loads
     const observer = new MutationObserver(resizeEmbed);
     observer.observe(document.getElementById('dailyVersesWrapper'), { childList: true, subtree: true });
 
-    // Resize on window changes
+    // Also resize on window changes
     window.addEventListener('resize', resizeEmbed);
   </script>
 </body>
