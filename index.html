@@ -16,15 +16,14 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    overflow: hidden;
   }
 
   #dailyVersesWrapper {
-    max-width: 90%;
-    max-height: 90%;
+    width: 90%;
+    height: 90%;
     font-weight: 700;
     line-height: 1.2em;
-    font-size: 16px; /* smaller starting font */
+    font-size: 16px; /* small fixed size to ensure fit */
     word-wrap: break-word;
   }
 
@@ -38,43 +37,5 @@
 <body>
   <div id="dailyVersesWrapper"></div>
   <script async defer src="https://dailyverses.net/get/verse.js?language=niv"></script>
-
-  <script>
-    function fitText() {
-      const wrapper = document.getElementById('dailyVersesWrapper');
-      let fontSize = 16; // starting smaller
-      const maxHeight = window.innerHeight * 0.9;
-      const maxWidth = window.innerWidth * 0.9;
-
-      wrapper.style.fontSize = fontSize + 'px';
-
-      // shrink text until it fits
-      while ((wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) && fontSize > 8) {
-        fontSize -= 1;
-        wrapper.style.fontSize = fontSize + 'px';
-      }
-
-      // expand text if there’s extra space (optional)
-      while ((wrapper.scrollHeight < maxHeight && wrapper.scrollWidth < maxWidth) && fontSize < 32) {
-        fontSize += 1;
-        wrapper.style.fontSize = fontSize + 'px';
-        if (wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) {
-          fontSize -=1;
-          wrapper.style.fontSize = fontSize + 'px';
-          break;
-        }
-      }
-
-      // Send height to Notion
-      window.parent.postMessage({ type: 'notion-height', height: wrapper.scrollHeight }, '*');
-    }
-
-    // Resize once verse loads
-    const observer = new MutationObserver(fitText);
-    observer.observe(document.getElementById('dailyVersesWrapper'), { childList: true, subtree: true });
-
-    // Also resize on window changes
-    window.addEventListener('resize', fitText);
-  </script>
 </body>
 </html>
