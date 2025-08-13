@@ -8,7 +8,7 @@
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #0e0e0e; /* matches GIF background */
+    background-color: #0e0e0e; /* matches Notion dark mode / your GIF background */
     font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     color: rgba(255, 255, 255, 0.81);
     height: 100%;
@@ -24,10 +24,12 @@
     height: 90%;
     font-weight: 700;
     line-height: 1.2em;
-    font-size: 12px; /* smaller to always fit */
+    /* Scales text between 12px and 20px depending on container width */
+    font-size: clamp(12px, 4vw, 20px);
     word-wrap: break-word;
   }
 
+  /* Hide any extra headings/links from DailyVerses */
   #dailyVersesWrapper h3,
   #dailyVersesWrapper a,
   #dailyVersesWrapper small {
