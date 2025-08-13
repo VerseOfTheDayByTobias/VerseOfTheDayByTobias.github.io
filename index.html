@@ -5,9 +5,7 @@
 <title>Verse of the Day</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  /* Full height for centering */
   html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
     background-color: #191919;
@@ -20,6 +18,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    min-height: 50px; /* ensures small content doesn’t collapse */
   }
 
   #dailyVersesWrapper {
@@ -37,5 +36,20 @@
 <body>
   <div id="dailyVersesWrapper"></div>
   <script async defer src="https://dailyverses.net/get/verse.js?language=niv"></script>
+
+  <script>
+    // Auto resize Notion embed
+    function resizeEmbed() {
+      const height = document.body.scrollHeight;
+      window.parent.postMessage({ type: 'notion-height', height: height }, '*');
+    }
+
+    // Resize once the verse loads
+    const observer = new MutationObserver(resizeEmbed);
+    observer.observe(document.getElementById('dailyVersesWrapper'), { childList: true, subtree: true });
+
+    // Optional: also resize on window resize
+    window.addEventListener('resize', resizeEmbed);
+  </script>
 </body>
 </html>
