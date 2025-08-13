@@ -24,11 +24,10 @@
     max-height: 90%;
     font-weight: 700;
     line-height: 1.2em;
-    font-size: 32px; /* starting font size */
+    font-size: 16px; /* smaller starting font */
     word-wrap: break-word;
   }
 
-  /* Hide unwanted elements */
   #dailyVersesWrapper h3,
   #dailyVersesWrapper a,
   #dailyVersesWrapper small {
@@ -41,34 +40,41 @@
   <script async defer src="https://dailyverses.net/get/verse.js?language=niv"></script>
 
   <script>
-    function resizeEmbed() {
+    function fitText() {
       const wrapper = document.getElementById('dailyVersesWrapper');
-      let fontSize = 32; // starting font size
+      let fontSize = 16; // starting smaller
       const maxHeight = window.innerHeight * 0.9;
       const maxWidth = window.innerWidth * 0.9;
 
-      // Shrink text until it fits
-      function fitText() {
+      wrapper.style.fontSize = fontSize + 'px';
+
+      // shrink text until it fits
+      while ((wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) && fontSize > 8) {
+        fontSize -= 1;
         wrapper.style.fontSize = fontSize + 'px';
-        while ((wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) && fontSize > 10) {
-          fontSize -= 1;
+      }
+
+      // expand text if there’s extra space (optional)
+      while ((wrapper.scrollHeight < maxHeight && wrapper.scrollWidth < maxWidth) && fontSize < 32) {
+        fontSize += 1;
+        wrapper.style.fontSize = fontSize + 'px';
+        if (wrapper.scrollHeight > maxHeight || wrapper.scrollWidth > maxWidth) {
+          fontSize -=1;
           wrapper.style.fontSize = fontSize + 'px';
+          break;
         }
       }
 
-      fitText();
-
-      // Send height to Notion to adjust iframe
-      const height = wrapper.scrollHeight;
-      window.parent.postMessage({ type: 'notion-height', height: height }, '*');
+      // Send height to Notion
+      window.parent.postMessage({ type: 'notion-height', height: wrapper.scrollHeight }, '*');
     }
 
     // Resize once verse loads
-    const observer = new MutationObserver(resizeEmbed);
+    const observer = new MutationObserver(fitText);
     observer.observe(document.getElementById('dailyVersesWrapper'), { childList: true, subtree: true });
 
     // Also resize on window changes
-    window.addEventListener('resize', resizeEmbed);
+    window.addEventListener('resize', fitText);
   </script>
 </body>
 </html>
